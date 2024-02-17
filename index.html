@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaflet Map with GPS Location</title>
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
-  <!-- Leaflet JavaScript -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js" integrity="sha512-MKiLi3FocY8ueiFlU8Erj9fQ9W/gFV4/y7ZlTr9Zujocfpgzi/XYSI1lEJXsfP0r1nMW2qtxs28G4hVsMczhkg==" crossorigin=""></script>
+  <title>Prince GCPs</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
   <style>
     #map {
       height: 400px;
@@ -22,13 +22,13 @@
 <script>
   var map = L.map('map').setView([35.891496041909612, -77.513904527865833], 13); // set initial view
 
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles © Esri'
-  }).addTo(map);
 
+  var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+}).addTo(map);
   // Add a marker for GPS location
   L.geoJSON(gcps).addTo(map);
-  //   var marker = L.marker([35.891496041909612, -77.513904527865833]).addTo(map);
+  var marker = L.marker([35.891496041909612, -77.513904527865833]).addTo(map);
 
   // Function to get GPS location
   function onLocationFound(e) {
