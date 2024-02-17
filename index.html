@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaflet Map with GPS Location</title>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js" integrity="sha512-MKiLi3FocY8ueiFlU8Erj9fQ9W/gFV4/y7ZlTr9Zujocfpgzi/XYSI1lEJXsfP0r1nMW2qtxs28G4hVsMczhkg==" crossorigin=""></script>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+  var map = L.map('map').setView([51.505, -0.09], 13); // set initial view
+
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles © Esri'
+  }).addTo(map);
+
+  // Add a marker for GPS location
+  var marker = L.marker([51.5, -0.09]).addTo(map);
+
+  // Function to get GPS location
+  function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+
+    marker.setLatLng(e.latlng).bindPopup("You are within " + radius + " meters from this point").openPopup();
+  }
+
+  // Function to handle GPS location error
+  function onLocationError(e) {
+    alert(e.message);
+  }
+
+  // Event listener for GPS location
+  map.on('locationfound', onLocationFound);
+  map.on('locationerror', onLocationError);
+
+  // Request GPS location
+  map.locate({setView: true, maxZoom: 16});
+</script>
+
+</body>
+</html>
